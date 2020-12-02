@@ -1,10 +1,26 @@
 # WhatsApp_Twilio_ServiceNow_CSM
 Bot de Integração - WhatsApp - Twilio - ServiceNow - CSM Case
 
+1) Criar um usuário de integração para o WhatsApp
+-	vá na tabela sys_user
+- crie um usuário (exemplo: whatsapp_integracao)
+- Exemplo (id = whatsapp_integracao, Fisrt_name = WhatsApp, Last_name = Integracao)
+- dê uma senha para o seu usuário
+- coloque uma foto (whatsapp_logo.jpg) está no material
+- marcar a opcão "Web service access only"
+- coloque a role de admin (Apenas para POVs)   
+
+2) Obter a codificação do usuario e senha "whatsapp_integracao"
+- vá em https://www.base64encode.org/ 
+- No campo "Encode to Base64 format" digite  <usuário>:<senha>  (exemplo:  admin:admin)
+- clique no botão "> ENCODE <"
+- será apresentada a sua senha codificada - ANOTE-A pois iremos usar para atualizar as chamadas do Twilio para a ServiceNow
+
+
 1) Importar o UpdateSet em sua instância ServiceNow
--- 1.1 - Importar o UpdateSet - Whatsapp_Twilio_Spoke_v2.xml 
----- O UpdateSet irá adicionar
----- Spoke WhatsApp_Twilio_v2 que será responsável por realizar o push back ServiceNow - Twilio - WhatsApp
+1.1 - Importar o UpdateSet - Whatsapp_Twilio_Spoke_v2.xml 
+	O UpdateSet irá adicionar
+	Spoke WhatsApp_Twilio_v2 que será responsável por realizar o push back ServiceNow - Twilio - WhatsApp
 
 -- 1.2 - Importar o UpdateSet - WhatsApp_Twilio_ServiceNow_CSM.xml 
 ---- O UpdateSet irá adicionar
