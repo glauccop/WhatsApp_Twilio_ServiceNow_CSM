@@ -1,0 +1,45 @@
+
+const axios = require('axios');
+
+exports.handler = function (context, event, callback) {
+  // JSONPlaceholder: https://jsonplaceholder.typicode.com/
+ 
+ let SYSID = event.id_usuario ;
+ console.log(SYSID);
+
+ let NUMERO = event.case_number ;
+ console.log(NUMERO);
+  
+  const instance = axios.create({
+    baseURL: 'https://escolhacertapov.service-now.com/api/now/table',
+    timeout: 9700,
+    headers: { 'Authorization':'Basic YWRtaW46IVFBWjJ3c3g=','Content-Type':'application/json' },
+    responseType: 'json',
+  });
+
+  instance
+
+    .get('/sn_customerservice_case?', { params: { sysparm_query:"contact_type=WhatsApp^contact="+ SYSID +"^number=CS"+ NUMERO,sysparm_fields:"sys_id,number,short_description,comments_and_work_notes",sysparm_limit: "1"}})
+    .then((response) => {
+       //console.log(response.data);
+       //console.log(response.status);
+       //console.log(response.statusText);
+       //console.log(response.headers);
+       //console.log(response.config);
+      
+      console.log(JSON.stringify(response.data));
+          
+     let VAR = JSON.parse(JSON.stringify(response.data));
+     let VAR2 = VAR.result ;
+     
+     let RESULTADO = VAR2[0].number +" - "+VAR2[0].short_description;
+       
+      
+      //return callback(null, response.data); //ORIGINAL
+      return callback(null, {id_case: VAR2[0].sys_id , resposta: response.data , resultado: RESULTADO } );
+    })
+    .catch((error) => {
+      console.log(error);
+      return callback(error);
+    });
+};
