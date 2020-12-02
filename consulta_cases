@@ -10,13 +10,13 @@ exports.handler = function (context, event, callback) {
   const instance = axios.create({
     baseURL: 'https://escolhacertapov.service-now.com/api/now/table',
     timeout: 15000,
-    headers: { 'Authorization':'Basic YWRtaW46IVFBWjJ3c3g=','Content-Type':'application/json' },
+    headers: { 'Authorization':'Basic d2hhdHNhcHBfaW50ZWdyYWNhbzoxMjMzMjE=','Content-Type':'application/json' },
     responseType: 'json',
   });
 
   instance
 
-    .get('/sn_customerservice_case?', { params: { sysparm_query:"contact_type=WhatsApp^contact="+ SYSID ,sysparm_fields:"number,short_description,priority",sysparm_limit: "5"}})
+    .get('/sn_customerservice_case?', { params: { sysparm_query:"contact_type=WhatsApp^contact="+ SYSID +"^active=true" ,sysparm_fields:"number,short_description,priority",sysparm_limit: "5"}})
     .then((response) => {
        //console.log(response.data);
        //console.log(response.status);
