@@ -1,0 +1,58 @@
+
+//A função "axios", tem que ser carregada dentro do módulo de dependências !!!!
+//Vá em dependência adicione o Módulo => axios Versão => 0.20.0
+
+const axios = require('axios');
+
+exports.handler = function (context, event, callback) {
+  // JSONPlaceholder: https://jsonplaceholder.typicode.com/
+
+   let Urgency = event.urgencia ;  //coleta do usuário a urgência
+   console.log(Urgency);
+   
+   let Short_description = event.texto;  //coleta do usuário a urgência
+   console.log(Short_description);
+
+   let SYSID = event.sys_id_usuario ;
+   console.log(SYSID);
+   
+   
+
+  //Abaixo está a base da conexão que será realizada ao servicenow.
+  //Use a URL https://www.base64encode.org/ e mande codificar para base 64 a seguinte string , <admin>:<senha> servicenow, use essa de exemplo admin:!QAZ2wsx você vai encontrar exatamente o código de acesso do basic YWRtaW46IVFBWjJ3c3g=  , atualize com o admin da sua instância. Obs é possivel criar um usuário só para essa integração !. 
+  
+  const instance = axios.create({
+    baseURL: 'https://escolhacertapov.service-now.com/api/now/table',
+    timeout: 9700,
+    headers: { 'Authorization':'Basic YWRtaW46IVFBWjJ3c3g=','Content-Type':'application/json' },
+    responseType: 'json',
+  });
+
+  instance
+    .post('/sn_customerservice_case?', {urgency: Urgency, short_description: Short_description, contact: SYSID, contact_type: "WhatsApp" })
+    
+    .then((response) => {
+ 
+     console.log(JSON.stringify(response.data));
+     let RESULTADO = "";
+     
+     if (response.status == '201') {
+       
+        let VAR = JSON.parse(JSON.stringify(response.data));
+        let VAR2 = VAR.result ;
+        RESULTADO = "Caso (" + VAR2.number +") foi aberto com sucesso ";
+          
+     } else {
+       
+        RESULTADO = "Caso aberto com sucesso !, consulte via opção 2 do menu para obter mais detalhes";
+       
+     }
+     
+     // return callback(null, response.data); //ORIGINAL
+      return callback(null, { status: response.status, resp: RESULTADO });
+    })
+    .catch((error) => {
+      console.log(error);
+      return callback(error);
+    });
+};
