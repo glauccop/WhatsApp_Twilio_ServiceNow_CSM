@@ -8,7 +8,7 @@ Bot de Integração - WhatsApp - Twilio - ServiceNow - CSM Case
 - dê uma senha para o seu usuário
 - coloque uma foto (whatsapp_logo.jpg) está no material
 - marcar a opcão "Web service access only"
-- coloque a role de admin (Apenas para POVs)   
+- coloque a role de "admin, sn_customerservice.customer , sn_customerservice.consumer"   
 
 2) Obter a codificação do usuario e senha "whatsapp_integracao"
 - vá em https://www.base64encode.org/ 
